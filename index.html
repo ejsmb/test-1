@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoreTech Solutions | Tienda Oficial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .modal { display: none; background: rgba(0,0,0,0.8); }
+        .active { display: flex; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <header class="bg-slate-900 text-white p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="100" rx="15" fill="#3B82F6"/>
+                    <path d="M30 50L45 65L70 35" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" stroke-dasharray="4 4"/>
+                </svg>
+                <h1 class="text-2xl font-bold tracking-tighter">CORETECH <span class="text-blue-400">SOLUTIONS</span></h1>
+            </div>
+            <nav class="hidden md:flex gap-6">
+                <a href="#productos" class="hover:text-blue-400">Productos</a>
+                <a href="#nosotros" class="hover:text-blue-400">Nosotros</a>
+                <a href="#contacto" class="hover:text-blue-400">Ubicación</a>
+            </nav>
+            <button onclick="toggleCart()" class="bg-blue-600 px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition">
+                Carrito (<span id="cart-count">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <section class="bg-blue-900 text-white py-20 text-center">
+        <h2 class="text-4xl md:text-6xl font-extrabold mb-4">Tecnología que Impulsa tu Mundo</h2>
+        <p class="text-xl text-blue-200">Componentes de alto rendimiento y seguridad profesional.</p>
+    </section>
+
+    <section id="productos" class="container mx-auto py-16 px-4">
+        <h3 class="text-3xl font-bold text-center mb-12">Catálogo de Productos</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-white p-6 rounded-xl shadow-md border hover:border-blue-500 transition">
+                <div class="h-40 bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-400">Módulo DDR5 16GB</div>
+                <h4 class="font-bold text-lg">Memoria RAM Pro-X</h4>
+                <p class="text-gray-600 mb-4 text-sm">Frecuencia 6000MHz para máxima velocidad.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-xl font-bold text-blue-600">$120.00</span>
+                    <button onclick="addToCart('Memoria RAM Pro-X', 120)" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-blue-600">Añadir</button>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md border hover:border-blue-500 transition">
+                <div class="h-40 bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-400">Cámara IP 4K</div>
+                <h4 class="font-bold text-lg">Cámara Sentinel 360</h4>
+                <p class="text-gray-600 mb-4 text-sm">Visión nocturna y detección de movimiento.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-xl font-bold text-blue-600">$85.00</span>
+                    <button onclick="addToCart('Cámara Sentinel 360', 85)" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-blue-600">Añadir</button>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md border hover:border-blue-500 transition">
+                <div class="h-40 bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-400">SSD NVMe 1TB</div>
+                <h4 class="font-bold text-lg">Disco SSD Ultra-Fast</h4>
+                <p class="text-gray-600 mb-4 text-sm">Lectura de 7500MB/s, ideal para gaming.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-xl font-bold text-blue-600">$95.00</span>
+                    <button onclick="addToCart('Disco SSD Ultra-Fast', 95)" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-blue-600">Añadir</button>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md border hover:border-blue-500 transition">
+                <div class="h-40 bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-400">Fuente 850W Gold</div>
+                <h4 class="font-bold text-lg">Fuente PowerCore 850W</h4>
+                <p class="text-gray-600 mb-4 text-sm">Certificación 80+ Gold, modular completa.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-xl font-bold text-blue-600">$145.00</span>
+                    <button onclick="addToCart('Fuente PowerCore 850W', 145)" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-blue-600">Añadir</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros" class="bg-slate-100 py-16">
+        <div class="container mx-auto px-4 grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <h5 class="text-xl font-bold mb-3 text-blue-700">Nuestra Misión</h5>
+                <p class="text-gray-700 italic">"Proveer soluciones tecnológicas que aseguren la continuidad y seguridad digital."</p>
+            </div>
+            <div class="text-center">
+                <h5 class="text-xl font-bold mb-3 text-blue-700">Nuestra Visión</h5>
+                <p class="text-gray-700 italic">"Ser el referente regional en infraestructura técnica y componentes de alta gama."</p>
+            </div>
+            <div class="text-center">
+                <h5 class="text-xl font-bold mb-3 text-blue-700">Nuestros Valores</h5>
+                <p class="text-gray-700 italic">Precisión técnica, Innovación, Integridad y Soporte Especializado.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="container mx-auto py-16 px-4 text-center">
+        <h3 class="text-2xl font-bold mb-4">Nuestra Ubicación</h3>
+        <p class="text-gray-600 mb-6">Av. Tecnológica 1024, Distrito Industrial, C.P. 28000</p>
+        <div class="h-64 bg-gray-300 rounded-lg flex items-center justify-center text-gray-500">[ Mapa Interactivo Simulado ]</div>
+    </section>
+
+    <footer class="bg-slate-900 text-white py-8 text-center border-t border-slate-700">
+        <p>&copy; 2026 CoreTech Solutions - Todos los derechos reservados.</p>
+    </footer>
+
+    <div id="cart-modal" class="modal fixed inset-0 z-[60] justify-center items-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 relative">
+            <h2 class="text-2xl font-bold mb-4">Tu Carrito</h2>
+            <div id="cart-items" class="mb-4 max-h-60 overflow-y-auto">
+                <p class="text-gray-500">El carrito está vacío.</p>
+            </div>
+            <div class="border-t pt-4 font-bold text-xl flex justify-between mb-6">
+                <span>Total:</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            
+            <div id="checkout-form" class="hidden">
+                <h3 class="font-bold mb-2">Datos de Envío</h3>
+                <input type="text" placeholder="Nombre completo" class="w-full border p-2 rounded mb-2" required>
+                <input type="email" placeholder="Correo electrónico" class="w-full border p-2 rounded mb-4" required>
+                <button onclick="processOrder()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700">Finalizar Compra</button>
+            </div>
+            <button id="btn-checkout" onclick="showCheckout()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold mb-2">Pagar Ahora</button>
+            <button onclick="toggleCart()" class="w-full text-gray-500 text-sm">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            updateCart();
+            alert(`${name} añadido al carrito.`);
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const itemsContainer = document.getElementById('cart-items');
+            itemsContainer.innerHTML = '';
+            total = 0;
+
+            cart.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'flex justify-between py-2 border-b';
+                div.innerHTML = `<span>${item.name}</span><span>$${item.price}</span>`;
+                itemsContainer.appendChild(div);
+                total += item.price;
+            });
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('active');
+        }
+
+        function showCheckout() {
+            if(cart.length === 0) return alert('El carrito está vacío');
+            document.getElementById('checkout-form').classList.remove('hidden');
+            document.getElementById('btn-checkout').classList.add('hidden');
+        }
+
+        function processOrder() {
+            alert('¡Pedido Recibido! Gracias por tu compra en CoreTech Solutions. Procesando envío...');
+            cart = [];
+            updateCart();
+            toggleCart();
+            document.getElementById('checkout-form').classList.add('hidden');
+            document.getElementById('btn-checkout').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
