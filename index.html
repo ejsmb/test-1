@@ -3,296 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoreTech Solutions | Alto Rendimiento y Seguridad</title>
+    <title>CoreTech Solutions | High-Tech Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Definición de Animaciones CSS */
+        /* --- ANIMACIONES Y ESTILOS --- */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes pulse-blue {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-        }
-
-        /* Clases de Animación */
         .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
+        .delay-1 { animation-delay: 0.3s; opacity: 0; }
+        .delay-2 { animation-delay: 0.6s; opacity: 0; }
 
-        /* Estilos de Interacción */
-        .nav-btn {
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            background-color: #2563eb; /* blue-600 */
-        }
-        .nav-btn::after {
-            content: '';
+        html { scroll-behavior: smooth; }
+        
+        /* Estilo para el Canvas de Fondo Animado */
+        #canvas {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
-            background: white;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            height: 100%;
+            background: radial-gradient(circle, #0f172a 0%, #020617 100%);
+            z-index: 0;
         }
-        .nav-btn:hover::after { transform: scaleX(1); }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Botones Animados */
+        .nav-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
 
         .product-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s ease;
         }
         .product-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: #3B82F6;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            border-color: #3b82f6;
         }
 
-        .btn-add {
-            transition: all 0.3s ease;
-        }
-        .btn-add:hover {
-            background-color: #3B82F6;
-            transform: scale(1.05);
-            animation: pulse-blue 1.5s infinite;
-        }
-
-        /* Estilos básicos */
-        html { scroll-behavior: smooth; }
         .modal { display: none; background: rgba(0,0,0,0.8); z-index: 100; }
         .modal.active { display: flex; }
-        body { overflow-x: hidden; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
 
-    <header class="bg-slate-900/90 text-white p-4 sticky top-0 z-50 shadow-lg backdrop-blur-sm">
+    <header class="bg-slate-900/80 text-white p-4 sticky top-0 z-50 shadow-lg backdrop-blur-md">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2 animate-fade-in">
-                <svg width="35" height="35" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="flex items-center gap-2">
+                <svg width="35" height="35" viewBox="0 0 100 100" fill="none">
                     <rect width="100" height="100" rx="15" fill="#3B82F6"/>
                     <path d="M30 50L45 65L70 35" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" stroke-dasharray="4 4"/>
                 </svg>
-                <h1 class="text-xl md:text-2xl font-bold tracking-tighter">CORETECH <span class="text-blue-400">SOLUTIONS</span></h1>
+                <h1 class="text-xl md:text-2xl font-bold tracking-tighter uppercase">CoreTech</h1>
             </div>
             
-            <nav class="flex gap-2 md:gap-4 animate-fade-in delay-1">
-                <a href="#inicio" class="nav-btn bg-slate-700 px-4 py-2 rounded-lg font-semibold text-sm hover:text-white">Home</a>
-                <a href="#productos" class="nav-btn bg-slate-700 px-4 py-2 rounded-lg font-semibold text-sm hover:text-white">Catálogo</a>
-                <button onclick="toggleCart()" class="bg-blue-600 px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-700 transition flex items-center gap-1">
+            <nav class="flex gap-3 md:gap-6">
+                <a href="#inicio" class="nav-btn bg-blue-600/20 hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-bold border border-blue-500/30">Home</a>
+                <a href="#productos" class="nav-btn bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-bold">Catálogo</a>
+                <button onclick="toggleCart()" class="bg-blue-600 px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-700 transition">
                     🛒 (<span id="cart-count">0</span>)
                 </button>
             </nav>
         </div>
     </header>
 
-    <section id="inicio" class="relative h-screen flex items-center justify-center text-center bg-slate-950 text-white overflow-hidden">
-        <img src="fondo-hero.jpg" alt="Fondo Tecnológico" class="absolute inset-0 w-full h-full object-cover opacity-30">
+    <section id="inicio" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+        <canvas id="canvas"></canvas>
         
-        <div class="relative z-10 container mx-auto px-4 animate-fade-in delay-1">
-            <span class="inline-block bg-blue-600 text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-widest">Tecnología de Vanguardia</span>
-            <h2 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tighter">Potencia tu Infraestructura Digital</h2>
-            <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-10">Componentes de alto rendimiento y soluciones de seguridad profesional para empresas y entusiastas exigentes.</p>
-            <div class="flex gap-4 justify-center">
-                <a href="#productos" class="nav-btn bg-blue-600 text-white px-8 py-3 rounded-xl font-bold text-lg shadow-lg hover:bg-blue-700">Ver Catálogo</a>
-                <a href="#nosotros" class="nav-btn bg-slate-700 text-white px-8 py-3 rounded-xl font-bold text-lg hover:bg-slate-800">Conócenos</a>
+        <div class="hero-content container mx-auto px-4">
+            <div class="animate-fade-in">
+                <span class="inline-block bg-blue-500 text-[10px] font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-[0.2em] text-white">Innovation & Performance</span>
+                <h2 class="text-5xl md:text-8xl font-black text-white mb-6 leading-none tracking-tighter">CORETECH<br><span class="text-blue-500">SOLUTIONS</span></h2>
+                <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">Especialistas en hardware de alto rendimiento y seguridad de próxima generación.</p>
+                <div class="flex gap-4 justify-center">
+                    <a href="#productos" class="nav-btn bg-blue-600 text-white px-10 py-4 rounded-full font-bold text-lg">Explorar Tienda</a>
+                </div>
             </div>
         </div>
-        
-        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-gray-50 to-transparent z-10"></div>
     </section>
 
     <section id="productos" class="container mx-auto py-24 px-4">
-        <div class="text-center mb-16 animate-fade-in delay-2">
-            <h3 class="text-4xl font-bold mb-4 tracking-tight">Nuestro Catálogo Especializado</h3>
-            <p class="text-gray-600 max-w-2xl mx-auto">Selección exclusiva de hardware y seguridad con certificación de calidad CoreTech.</p>
-        </div>
-        
+        <h3 class="text-4xl font-black text-center mb-16 uppercase tracking-tighter">Nuestros Productos</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="product-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col animate-fade-in delay-1">
-                <div class="aspect-square bg-gray-100 rounded-xl mb-5 overflow-hidden border">
-                    <img src="ram-ddr5.jpg" alt="Memoria RAM Pro-X DDR5" class="w-full h-full object-cover">
-                </div>
-                <h4 class="font-bold text-xl mb-1">Memoria RAM Pro-X</h4>
-                <p class="text-gray-600 mb-5 text-sm flex-grow">Módulo DDR5 16GB, 6000MHz. Rendimiento extremo.</p>
-                <div class="flex justify-between items-center mt-auto">
-                    <span class="text-2xl font-extrabold text-blue-600">$120.00</span>
-                    <button onclick="addToCart('RAM Pro-X 16GB', 120)" class="btn-add bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">Añadir</button>
+            <div class="product-card bg-white p-6 rounded-3xl border border-gray-100 flex flex-col animate-fade-in delay-1">
+                <img src="ram-ddr5.jpg" alt="RAM" class="w-full h-48 object-cover rounded-2xl mb-4 bg-gray-100">
+                <h4 class="font-bold text-xl mb-2 uppercase">Memoria RAM Pro-X</h4>
+                <p class="text-gray-500 text-sm mb-4 flex-grow">16GB DDR5 6000MHz. Velocidad pura para procesos pesados.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-2xl font-black text-blue-600">$120</span>
+                    <button onclick="addToCart('RAM Pro-X 16GB', 120)" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 transition">AÑADIR</button>
                 </div>
             </div>
-            
-            <div class="product-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col animate-fade-in delay-1">
-                <div class="aspect-square bg-gray-100 rounded-xl mb-5 overflow-hidden border">
-                    <img src="camara-ip.jpg" alt="Cámara Sentinel 360" class="w-full h-full object-cover">
-                </div>
-                <h4 class="font-bold text-xl mb-1">Cámara Sentinel 360</h4>
-                <p class="text-gray-600 mb-5 text-sm flex-grow">Cámara IP 4K, Visión Nocturna y IA de detección.</p>
-                <div class="flex justify-between items-center mt-auto">
-                    <span class="text-2xl font-extrabold text-blue-600">$85.00</span>
-                    <button onclick="addToCart('Sentinel 360 4K', 85)" class="btn-add bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">Añadir</button>
+            <div class="product-card bg-white p-6 rounded-3xl border border-gray-100 flex flex-col animate-fade-in delay-1">
+                <img src="camara-ip.jpg" alt="Cámara" class="w-full h-48 object-cover rounded-2xl mb-4 bg-gray-100">
+                <h4 class="font-bold text-xl mb-2 uppercase">Sentinel 360 4K</h4>
+                <p class="text-gray-500 text-sm mb-4 flex-grow">Vigilancia inteligente con detección de humanos por IA.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-2xl font-black text-blue-600">$85</span>
+                    <button onclick="addToCart('Sentinel 360 4K', 85)" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 transition">AÑADIR</button>
                 </div>
             </div>
-            
-            <div class="product-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col animate-fade-in delay-1">
-                <div class="aspect-square bg-gray-100 rounded-xl mb-5 overflow-hidden border">
-                    <img src="ssd-nvme.jpg" alt="Disco SSD Ultra-Fast" class="w-full h-full object-cover">
-                </div>
-                <h4 class="font-bold text-xl mb-1">SSD Ultra-Fast 1TB</h4>
-                <p class="text-gray-600 mb-5 text-sm flex-grow">NVMe PCIe 4.0, Lectura 7500MB/s. Carga instantánea.</p>
-                <div class="flex justify-between items-center mt-auto">
-                    <span class="text-2xl font-extrabold text-blue-600">$95.00</span>
-                    <button onclick="addToCart('SSD Ultra-Fast 1TB', 95)" class="btn-add bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">Añadir</button>
+            <div class="product-card bg-white p-6 rounded-3xl border border-gray-100 flex flex-col animate-fade-in delay-2">
+                <img src="ssd-nvme.jpg" alt="SSD" class="w-full h-48 object-cover rounded-2xl mb-4 bg-gray-100">
+                <h4 class="font-bold text-xl mb-2 uppercase">Ultra-Fast 1TB</h4>
+                <p class="text-gray-500 text-sm mb-4 flex-grow">SSD NVMe Gen4. Transferencias de hasta 7500MB/s.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-2xl font-black text-blue-600">$95</span>
+                    <button onclick="addToCart('SSD Ultra-Fast 1TB', 95)" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 transition">AÑADIR</button>
                 </div>
             </div>
-            
-            <div class="product-card bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col animate-fade-in delay-1">
-                <div class="aspect-square bg-gray-100 rounded-xl mb-5 overflow-hidden border">
-                    <img src="fuente-poder.jpg" alt="Fuente PowerCore 850W" class="w-full h-full object-cover">
-                </div>
-                <h4 class="font-bold text-xl mb-1">PowerCore 850W</h4>
-                <p class="text-gray-600 mb-5 text-sm flex-grow">Fuente Modular, Certificación 80+ Gold. Energía estable.</p>
-                <div class="flex justify-between items-center mt-auto">
-                    <span class="text-2xl font-extrabold text-blue-600">$145.00</span>
-                    <button onclick="addToCart('PowerCore 850W', 145)" class="btn-add bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold">Añadir</button>
+            <div class="product-card bg-white p-6 rounded-3xl border border-gray-100 flex flex-col animate-fade-in delay-2">
+                <img src="fuente-poder.jpg" alt="Fuente" class="w-full h-48 object-cover rounded-2xl mb-4 bg-gray-100">
+                <h4 class="font-bold text-xl mb-2 uppercase">PowerCore 850W</h4>
+                <p class="text-gray-500 text-sm mb-4 flex-grow">80 Plus Gold. Eficiencia energética de grado industrial.</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-2xl font-black text-blue-600">$145</span>
+                    <button onclick="addToCart('PowerCore 850W', 145)" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 transition">AÑADIR</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="nosotros" class="bg-slate-950 text-white py-24">
-        <div class="container mx-auto px-4 grid md:grid-cols-3 gap-12 text-center animate-fade-in delay-2">
-            <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 product-card">
-                <div class="text-blue-500 text-5xl mb-5">🚀</div>
-                <h5 class="text-2xl font-bold mb-4 text-blue-400">Nuestra Misión</h5>
-                <p class="text-slate-300 italic">"Proveer soluciones tecnológicas de vanguardia que aseguren la continuidad y seguridad digital de nuestros clientes."</p>
+    <section id="nosotros" class="bg-slate-900 text-white py-24">
+        <div class="container mx-auto px-4 grid md:grid-cols-3 gap-12">
+            <div class="text-center">
+                <h5 class="text-blue-500 font-bold mb-4 uppercase">Misión</h5>
+                <p class="text-gray-400 font-light italic">Seguridad y potencia en cada componente entregado.</p>
             </div>
-            <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 product-card">
-                <div class="text-blue-500 text-5xl mb-5">👁️</div>
-                <h5 class="text-2xl font-bold mb-4 text-blue-400">Nuestra Visión</h5>
-                <p class="text-slate-300 italic">"Ser el referente regional en infraestructura técnica y componentes de alta gama para el año 2030."</p>
+            <div class="text-center">
+                <h5 class="text-blue-500 font-bold mb-4 uppercase">Visión</h5>
+                <p class="text-gray-400 font-light italic">Liderar la infraestructura técnica regional para 2030.</p>
             </div>
-            <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 product-card">
-                <div class="text-blue-500 text-5xl mb-5">💎</div>
-                <h5 class="text-2xl font-bold mb-4 text-blue-400">Nuestros Valores</h5>
-                <p class="text-slate-300 italic">Precisión técnica, Innovación constante, Integridad y Soporte especializado.</p>
+            <div class="text-center">
+                <h5 class="text-blue-500 font-bold mb-4 uppercase">Valores</h5>
+                <p class="text-gray-400 font-light italic">Innovación, Integridad y Precisión Técnica.</p>
             </div>
         </div>
     </section>
 
-    <section id="contacto" class="container mx-auto py-24 px-4 text-center animate-fade-in delay-2">
-        <h3 class="text-3xl font-bold mb-4 tracking-tight">Nuestra Ubicación Central</h3>
-        <p class="text-gray-600 mb-8 max-w-xl mx-auto">Visítanos en nuestro showroom técnico para asesoría personalizada y recolección de pedidos.</p>
-        <p class="text-xl font-semibold text-blue-700 mb-10">Av. Tecnológica 1024, Distrito Industrial, C.P. 28000</p>
-        
-        <div class="relative h-80 bg-gray-200 rounded-2xl overflow-hidden shadow-inner border border-gray-300 group">
-            <div class="absolute inset-0 flex items-center justify-center text-gray-500 group-hover:scale-110 transition-transform duration-500">
-                [ Mapa Interactivo Simulado - Google Maps API ]
-            </div>
-            <div class="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition"></div>
+    <section class="py-24 bg-white text-center">
+        <h4 class="text-2xl font-black mb-2 uppercase">Showroom Central</h4>
+        <p class="text-gray-500 mb-8 font-light">Av. Tecnológica 1024, Distrito Industrial, C.P. 28000</p>
+        <div class="h-64 max-w-4xl mx-auto bg-gray-100 rounded-3xl flex items-center justify-center text-gray-400 border-2 border-dashed">
+            [ Mapa de Ubicación Simulado ]
         </div>
     </section>
 
-    <footer class="bg-slate-950 text-white py-12 text-center border-t border-slate-800">
-        <div class="container mx-auto px-4">
-            <p class="text-slate-400">&copy; 2026 CoreTech Solutions - Todos los derechos reservados.</p>
-            <p class="text-xs text-slate-600 mt-2">Diseño y Funcionalidad Simulada para Comercio Electrónico.</p>
-        </div>
-    </footer>
-
-    <div id="cart-modal" class="modal fixed inset-0 justify-center items-center p-4 backdrop-blur-sm transition-opacity duration-300">
-        <div class="bg-white rounded-3xl w-full max-w-md p-8 relative shadow-2xl transform transition-transform duration-300 scale-90 opacity-0" id="cart-content">
-            <button onclick="toggleCart()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-800 text-2xl">&times;</button>
-            <h2 class="text-3xl font-bold mb-6 tracking-tight">Tu Carrito</h2>
-            <div id="cart-items" class="mb-6 max-h-60 overflow-y-auto pr-2 space-y-3">
-                <p class="text-gray-500 italic text-center py-4">El carrito está vacío.</p>
+    <div id="cart-modal" class="modal fixed inset-0 justify-center items-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-[2rem] w-full max-w-md p-10 relative shadow-2xl">
+            <h2 class="text-3xl font-black mb-6 uppercase italic">Tu Pedido</h2>
+            <div id="cart-items" class="mb-6 max-h-60 overflow-y-auto space-y-4"></div>
+            <div class="border-t pt-6 flex justify-between mb-8">
+                <span class="font-bold text-xl uppercase">Total:</span>
+                <span id="cart-total" class="font-black text-2xl text-blue-600">$0.00</span>
             </div>
-            <div class="border-t border-gray-100 pt-5 font-bold text-2xl flex justify-between mb-8">
-                <span>Total:</span>
-                <span id="cart-total" class="text-blue-600">$0.00</span>
+            <div id="checkout-form" class="hidden space-y-4 mb-4">
+                <input type="text" placeholder="Tu Nombre" class="w-full p-4 bg-gray-100 rounded-2xl outline-none">
+                <button onclick="processOrder()" class="w-full bg-green-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest">Confirmar Compra</button>
             </div>
-            
-            <div id="checkout-form" class="hidden space-y-3 animate-fade-in">
-                <h3 class="font-semibold text-gray-800 mb-3">Datos de Envío y Pago</h3>
-                <input type="text" placeholder="Nombre completo" class="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-200 outline-none" required>
-                <input type="email" placeholder="Correo electrónico" class="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-200 outline-none" required>
-                <button onclick="processOrder()" class="w-full btn-add bg-green-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-green-700 shadow-md">Finalizar Compra Simulada</button>
-            </div>
-            <button id="btn-checkout" onclick="showCheckout()" class="w-full btn-add bg-blue-600 text-white py-4 rounded-xl font-bold text-lg shadow-md mb-3">Pagar Ahora</button>
-            <button onclick="toggleCart()" class="w-full text-gray-500 text-sm hover:text-gray-800 transition">Continuar Comprando</button>
+            <button id="btn-checkout" onclick="showCheckout()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest mb-3">Pagar Ahora</button>
+            <button onclick="toggleCart()" class="w-full text-gray-400 text-xs font-bold uppercase tracking-widest">Cerrar</button>
         </div>
     </div>
 
     <script>
-        let cart = [];
-        let total = 0;
+        // --- LÓGICA DEL FONDO (PARTICULAS) ---
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(59, 130, 246, 0.8)";
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                p.update();
+                p.draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = p.x - particles[j].x;
+                    const dy = p.y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(59, 130, 246, ${1 - dist / 150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+        initParticles();
+        animate();
+
+        // --- LÓGICA DE COMPRA ---
+        let cart = [];
         function addToCart(name, price) {
             cart.push({name, price});
             updateCart();
-            // Animación visual opcional en el botón de carrito
-            const cartBtn = document.querySelector('header button');
-            cartBtn.classList.add('scale-110', 'bg-blue-700');
-            setTimeout(() => cartBtn.classList.remove('scale-110', 'bg-blue-700'), 200);
+            alert('Añadido: ' + name);
         }
-
         function updateCart() {
             document.getElementById('cart-count').innerText = cart.length;
-            const itemsContainer = document.getElementById('cart-items');
-            itemsContainer.innerHTML = '';
-            total = 0;
-
-            if (cart.length === 0) {
-                itemsContainer.innerHTML = '<p class="text-gray-500 italic text-center py-4">El carrito está vacío.</p>';
-            } else {
-                cart.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'flex justify-between items-center py-3 px-4 bg-gray-50 rounded-lg border border-gray-100 animate-fade-in';
-                    div.innerHTML = `<span class="font-medium text-gray-800">${item.name}</span><span class="font-bold text-blue-600">$${item.price.toFixed(2)}</span>`;
-                    itemsContainer.appendChild(div);
-                    total += item.price;
-                });
-            }
+            const itemsDiv = document.getElementById('cart-items');
+            itemsDiv.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                itemsDiv.innerHTML += `<div class="flex justify-between font-bold bg-gray-50 p-3 rounded-xl"><span>${item.name}</span><span>$${item.price}</span></div>`;
+                total += item.price;
+            });
             document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
         }
-
-        function toggleCart() {
-            const modal = document.getElementById('cart-modal');
-            const content = document.getElementById('cart-content');
-            
-            if (modal.classList.contains('active')) {
-                content.classList.remove('scale-100', 'opacity-100');
-                content.classList.add('scale-90', 'opacity-0');
-                setTimeout(() => modal.classList.remove('active'), 300);
-            } else {
-                modal.classList.add('active');
-                setTimeout(() => {
-                    content.classList.remove('scale-90', 'opacity-0');
-                    content.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        }
-
-        function showCheckout() {
-            if(cart.length === 0) return alert('El carrito está vacío');
+        function toggleCart() { document.getElementById('cart-modal').classList.toggle('active'); }
+        function showCheckout() { 
+            if(cart.length === 0) return alert('Carrito vacío');
             document.getElementById('checkout-form').classList.remove('hidden');
             document.getElementById('btn-checkout').classList.add('hidden');
         }
-
         function processOrder() {
-            alert('¡Pedido Simulado Recibido! Gracias por interactuar con CoreTech Solutions. Procesando envío ficcticio...');
-            cart = [];
-            updateCart();
-            toggleCart();
-            document.getElementById('checkout-form').classList.add('hidden');
-            document.getElementById('btn-checkout').classList.remove('hidden');
+            alert('¡Orden Procesada Exitosamente!');
+            cart = []; updateCart(); toggleCart();
         }
     </script>
 </body>
